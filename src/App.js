@@ -1,23 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route } from "react-router-dom";
+
+import { Home, Outschool, Portfolio, ProfessionPupils, ProfessionTeachers, Projects, NotFound } from './pages/index'
+import { Tests, TestQuiz } from './pages/index'
+
+import { Header, Footer } from "./components/index";
+
+import testList from './test_sources/index'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='d-flex flex-column h-100'>
+        
+      <Header />
+
+     <main className='mt-3 mb-3'>
+      <Routes>
+        <Route path='/' element={<Home />}></Route>
+        <Route path='/projects' element={<Projects />}/>
+        <Route path='/outschool' element={<Outschool />}/>
+        <Route path='/portfolio' element={<Portfolio />}/>
+        <Route path='/profession/pupils' element={<ProfessionPupils />}/>
+        <Route path='/profession/teachers' element={<ProfessionTeachers />}/>
+        <Route path='/profession/tests' element={<Tests />}/>
+        <Route path='/quiz/:testName' element={<TestQuiz testList={testList}/>}/>
+        <Route path='*' element={<NotFound />} />
+      </Routes> 
+      </main>
+
+      <Footer />
     </div>
   );
 }
