@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
 import axios from 'axios'
-
+//
 const Post = () => {
     const { postID } = useParams()
     const [post, setPost] = useState()
