@@ -1,23 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-
-const CommonCard = ({image, title, subtitle, buttons}) => {
+const PostPreview = ({image, title, subtitle, id, date, author}) => {
+    const { pathname } = useLocation();
+    
     return (
         <div className="col mt-2">
             <div className="card" >
                 <img src={image} className="card-img-top" alt="..."/>
                 <div className="card-body">
+                    <p className="blog-post-meta text-end m-0">{date} {author}</p>
                     <h5 className="card-title">{title}</h5>
                     <p className="card-text">{subtitle}</p>
                 </div>
-                {buttons.map((button, i) => {
-                    return <Link to={button.href} key={i + button.href} className='btn btn-outline-dark m-2'>{button.text}</Link>
-                })}
-                
+                <Link to={pathname  + id} key={id} className='btn btn-outline-dark m-2'>Открыть</Link>
             </div>
         </div>
     );
 }
 
-export default CommonCard;
+export default PostPreview;

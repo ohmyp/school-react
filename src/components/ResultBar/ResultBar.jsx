@@ -3,7 +3,7 @@ import React from 'react';
 const ResultBar = ({value, max}) => {
     const progress = Math.floor(value / max * 100)
     return (
-        <div className="progress">
+        <div className="progress rounded-bottom" style={{'border-radius':'0rem'}}>
             {progress > 0 
             ? 
             <>

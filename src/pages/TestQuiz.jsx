@@ -1,5 +1,5 @@
 import {React, useState} from 'react';
-import { ResultBar } from '../components';
+import { ResultBar, Form, Accordion } from '../components';
 import { useParams, Navigate } from 'react-router-dom';
 
 const TestQuiz = ({testList}) => {
@@ -19,20 +19,7 @@ const TestQuiz = ({testList}) => {
         if (currentQuestion >= test.questions.length - 1) {
             setShowResult(true)
         }   
-    }
-    // TODO ОТПРАВКА РЕЗУЛЬТАТОВ НА ПОЧТУ И В БД
-    const sendResults = (e) => {
-        e.preventDefault()
-        let resultToSend = {test:{}, user:{}}
-        Object.entries(test.categoryScores).forEach(score => {
-            const key = test.categoryNames[score[0]]
-            resultToSend.test[key] = score[1]
-        })
-        const formData = Object.fromEntries(new FormData(e.target).entries());
-        resultToSend.user = formData
-
-        console.log(resultToSend);
-    }
+    }    
 
     return (
         <div className='container'>
@@ -43,38 +30,14 @@ const TestQuiz = ({testList}) => {
             {showResult 
             ? 
             <>
-                {/* Вывод результатов и прогрессбаров из test.categoryScores */}
+                {/* Вывод результатов и прогрессбаров из test.categoryScores, где score = [name, value] */}
                 {Object.entries(test.categoryScores).map(score => {
                     return <div key={Math.random()} className='mb-4'>
-                        {/* <p className='m-0' >{test.categoryNames[score[0]]}</p> */}
-                            <div className="accordion-item">
-                                <h2 className="accordion-header" id={"heading"+score[0]}>
-                                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={"#collapse"+score[0]} aria-expanded="true" aria-controls={"collapse"+score[0]}>
-                                        {test.categoryNames[score[0]]}
-                                    </button>
-                                </h2>
-                                <div id={"collapse"+[score[0]]} className="accordion-collapse collapse" aria-labelledby={"heading"+score[0]} data-bs-parent="#accordionExample">
-                                    <div className="accordion-body">
-                                        {test.interpretation[score[0]]}
-                                    </div>
-                                </div>
+                                <Accordion name={score[0]} test={test} />
                                 <ResultBar value={score[1]} max={test.max}/>
                             </div>
-                    </div>
                 })}
-                <form onSubmit={sendResults} method='post'>
-                    <div className="input-group">
-                        <span className="input-group-text">Имя, фамилия</span>
-                        <input name='firstName' type="text" aria-label="First name" className="form-control" placeholder='Иван'/>
-                        <input name='lastName' type="text" aria-label="Last name" className="form-control" placeholder='Иванов'/>
-                    </div>
-                    <div className="input-group mt-2">
-                        <span className="input-group-text">Класс, буква </span>
-                        <input name='classNumber' type="text" aria-label="First name" className="form-control"  placeholder='1'/>
-                        <input name='classLetter' type="text" aria-label="Last name" className="form-control"  placeholder='В'/>
-                    </div>
-                    <button className='btn btn-primary mt-2'>Отправить</button>
-                </form>
+                <Form test={test}/>
             </>
             : 
             <>
