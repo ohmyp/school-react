@@ -23,8 +23,8 @@ const Form = ({ test }) => {
             </div>
             <div className="input-group mt-2">
                 <span className="input-group-text">Класс, буква </span>
-                <select name="classNumber" class="form-select" aria-label="Default select example">
-                    <option selected>Выберите класс</option>
+                <select name="classNumber" className="form-select" aria-label="Default select example">
+                    <option defaultValue>Выберите класс</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -37,8 +37,8 @@ const Form = ({ test }) => {
                     <option value="10">10</option>
                     <option value="11">11</option>
                 </select>
-                <select name="classLetter" class="form-select" aria-label="Default select example">
-                    <option selected>Выберите букву</option>
+                <select name="classLetter" className="form-select" aria-label="Default select example">
+                    <option defaultValue>Выберите букву</option>
                     <option value="А">А</option>
                     <option value="Б">Б</option>
                     <option value="В">В</option>

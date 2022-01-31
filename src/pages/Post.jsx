@@ -1,12 +1,12 @@
 import { React, useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
 import axios from 'axios'
-//
+
 const Post = () => {
     const { postID } = useParams()
     const [post, setPost] = useState()
     useEffect(() => {
-        axios.get(`http://localhost:3001/api/${postID}`)
+        axios.get(`http://localhost:3001/api/posts/${postID}`)
         .then(res => {
             const data = res.data;
             setPost(data)

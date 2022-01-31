@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 const PostPreview = ({image, title, subtitle, id, date, author}) => {
     const { pathname } = useLocation();
-    
+        
     return (
         <div className="col mt-2">
             <div className="card" >
@@ -13,7 +13,7 @@ const PostPreview = ({image, title, subtitle, id, date, author}) => {
                     <h5 className="card-title">{title}</h5>
                     <p className="card-text">{subtitle}</p>
                 </div>
-                <Link to={pathname  + id} key={id} className='btn btn-outline-dark m-2'>Открыть</Link>
+                <Link to={id} key={id} className='btn btn-outline-dark m-2'>Открыть</Link>
             </div>
         </div>
     );

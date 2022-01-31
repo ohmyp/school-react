@@ -5,7 +5,7 @@ import axios from 'axios'
 const Home = () => {
     const [posts, setPosts] = useState([])
     useEffect(() => {
-        axios.get(`http://localhost:3001/api/`)
+        axios.get(`http://localhost:3001/api/posts`)
         .then(res => {
             const data = res.data;
             setPosts(data)

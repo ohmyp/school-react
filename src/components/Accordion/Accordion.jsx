@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Accordion = ({ test, name }) => {
-    console.log(test, name);
     return (
             <div className="accordion-item">
                 <h2 className="accordion-header" id={"heading"+name}>

@@ -9,10 +9,10 @@ const Posts = ({posts}) => {
                     title={post.title}
                     subtitle={post.headText.slice(0, 150)+'...'}
                     image={post.image}
-                    key={post.title+i}
                     id={post.id}
                     author={post.author}
                     date={post.date}
+                    key={post.id}
                 />     
             })}    
         </div>
