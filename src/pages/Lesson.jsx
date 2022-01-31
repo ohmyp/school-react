@@ -23,6 +23,7 @@ const Lesson = () => {
     if (id > lessons.length){
         return <Navigate to={'../notfound'} />
     }
+    
     return (
         <div className='container'>
             <h2>Материалы к занятию №{id}</h2>

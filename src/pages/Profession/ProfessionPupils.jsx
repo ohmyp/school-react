@@ -1,25 +1,35 @@
-import React from 'react';
-import { TitleCard, Posts } from '../../components';
-
-const posts = [
-    {
-        id: 1,
-        title:'Some title',
-        headText:'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.',
-        bottomText:'Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua.',
-        image:'https://sun9-56.userapi.com/impg/Xf4WNWcvVWz4H4N59ZLEbI2rGmovNbUerYH_-w/zsbRZUC_mA0.jpg?size=275x183&quality=96&sign=f25dab29051dbfddac35964843286970&type=album'
-    }
-    
-]
+import { TitleCard, Lessons } from '../../components';
+import { useState, useEffect } from 'react/cjs/react.development';
+import axios from 'axios';
 
 const ProfessionPupils = () => {
+
+    const [lessons, setLessons] = useState([])
+    const [error, setError] = useState(null)
+    
+    useEffect(() => {
+        axios.get(`http://localhost:3001/api/profession/pupils`)
+        .then(
+            res => {
+                const data = res.data
+                setTimeout(() => {setLessons(data)}, 500)},
+            err => {setError(err)}
+        )
+    }, [])
+    
+    if (error) {return (<h2 className='container'>{error.message}</h2>)}
+
     return (
         <div className='container'>
             <TitleCard 
                 title={'Профориентация: для ученика'} 
                 subtitle={'Задания для ученика'}
             />
-            <Posts posts={posts}></Posts>
+        {
+            lessons.length ? <Lessons lessons={lessons}></Lessons> : <h2 className='container'>Загрузка...</h2>
+            
+        }
+            
         </div>
         
     );

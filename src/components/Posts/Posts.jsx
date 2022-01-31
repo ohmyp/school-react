@@ -1,4 +1,3 @@
-import React from 'react';
 import { PostPreview } from '../index';
 
 const Posts = ({posts}) => {
@@ -7,7 +6,7 @@ const Posts = ({posts}) => {
             {posts.map((post, i) =>{
                 return <PostPreview
                     title={post.title}
-                    subtitle={post.headText.slice(0, 150)+'...'}
+                    subtitle={post.headText?post.headText.slice(0, 150)+'...':''}
                     image={post.image}
                     id={post.id}
                     author={post.author}

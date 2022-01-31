@@ -1,9 +1,10 @@
 import {React, useState} from 'react';
 import { ResultBar, Form, Accordion } from '../components';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const TestQuiz = ({testList}) => {
+    const navigate = useNavigate()
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [showResult, setShowResult] = useState(false)
     // const [resultToMail, setResultToMail] = useState('')
@@ -22,17 +23,19 @@ const TestQuiz = ({testList}) => {
             setShowResult(true)
             Object.entries(test.categoryScores).forEach(score => {
                 queryToMail += `${test.categoryNames[score[0]]}=${score[1]}&`
-                // queryToMail += `${[score[0]]}=${score[1]}&`
             })
             console.log(queryToMail);
             axios.post(`http://localhost:3001/api/results/?${queryToMail}`)
         }   
     }
     
+    const closeTest = () => {
+        navigate(-1)
+    }
     
-
     return (
         <div className='container'>
+            <button type="button" className="btn-close" aria-label="Close" onClick={closeTest}></button>
 
             <h1>{test.title}</h1>
 

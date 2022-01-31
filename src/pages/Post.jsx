@@ -5,14 +5,20 @@ import axios from 'axios'
 const Post = () => {
     const { postID } = useParams()
     const [post, setPost] = useState()
+    const [error, setError] = useState(null)
+
     useEffect(() => {
         axios.get(`http://localhost:3001/api/posts/${postID}`)
-        .then(res => {
-            const data = res.data;
-            setPost(data)
-        })
-    }, [postID]);
-    if (!post) {return (<div className='container'>Loading</div>)}
+        .then(
+            res => {
+                const data = res.data;
+                setPost(data)
+            },
+            err => {setError(err)}
+        )}, [postID]);
+
+    if (error) {return (<h2 className='container'>{error.message}</h2>)}
+    if (!post) {return (<h2 className='container'>Loading</h2>)}
     return (
         <div className='container'>
             <div className="p-5 mb-4 bg-light rounded-3 border">
