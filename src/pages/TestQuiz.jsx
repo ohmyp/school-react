@@ -1,14 +1,11 @@
 import {React, useState} from 'react';
 import { ResultBar, Form, Accordion } from '../components';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 const TestQuiz = ({testList}) => {
     const navigate = useNavigate()
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [showResult, setShowResult] = useState(false)
-    // const [resultToMail, setResultToMail] = useState('')
-    let queryToMail = ''
     const {testName} = useParams()
     const test = testList[testName]
 
@@ -21,11 +18,6 @@ const TestQuiz = ({testList}) => {
         setCurrentQuestion(currentQuestion + 1)
         if (currentQuestion >= test.questions.length - 1) {
             setShowResult(true)
-            Object.entries(test.categoryScores).forEach(score => {
-                queryToMail += `${test.categoryNames[score[0]]}=${score[1]}&`
-            })
-            console.log(queryToMail);
-            axios.post(`http://localhost:3001/api/results/?${queryToMail}`)
         }   
     }
     
