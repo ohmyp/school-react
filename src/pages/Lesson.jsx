@@ -18,8 +18,11 @@ const lessons = [
 ]
 
 const Lesson = () => {
-    const {pathname} = useLocation()
+    const { pathname } = useLocation()
+    const fileFolder = pathname.split('/').join('-').slice(1)
     const id = pathname.split('/')[pathname.split('/').length-1]
+    console.log(fileFolder);
+
     if (id > lessons.length){
         return <Navigate to={'../notfound'} />
     }
@@ -27,7 +30,8 @@ const Lesson = () => {
     return (
         <div className='container'>
             <h2>Материалы к занятию №{id}</h2>
-            <FileLoader id={pathname}/>
+            <h4 className="card-title">Загрузка работы</h4>
+            <FileLoader fileFolder={fileFolder}/>
             <div className="row mt-2">
             {lessons.map((lesson, i) => {
                 return <div className="col-sm-12 col-md-6 col-lg-3" key={lesson.title + i}>

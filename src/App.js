@@ -2,7 +2,7 @@ import './App.css';
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import { Home, Outschool, Portfolio, ProfessionPupils, ProfessionTeachers, Projects, NotFound } from './pages/index'
-import { Tests, TestQuiz, Post, Lesson } from './pages/index'
+import { Tests, TestQuiz, Post, Lesson, CreatePost } from './pages/index'
 
 import { Header, Footer } from "./components/index";
 
@@ -18,15 +18,22 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='/post/:postID' element={<Post />}></Route>
+
         <Route path='/projects' element={<Projects />}/>
+
         <Route path='/outschool' element={<Outschool />}/>
+
         <Route path='/portfolio' element={<Portfolio />}/>
+
         <Route path='/profession/pupils' element={<ProfessionPupils />}/>
         <Route path='/profession/pupils/:lessonID' element={<Lesson />}/>
         <Route path='/profession/teachers' element={<ProfessionTeachers />}/>
         <Route path='/profession/teachers/:lessonID' element={<Lesson />}/>
         <Route path='/profession/tests' element={<Tests />}/>
         <Route path='/profession/tests/:testName' element={<TestQuiz testList={testList}/>}/>
+
+        <Route path='/admin/createpost' element={<CreatePost />} />
+
         <Route path='/notfound' element={<NotFound />} />
         <Route
           path="*"

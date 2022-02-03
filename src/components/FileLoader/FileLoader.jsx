@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios'
-import { useLocation } from "react-router-dom";
 
-const FileLoader = ({id}) => {
-    const pathname = useLocation().pathname.split('/').join('-')
+const FileLoader = ({fileFolder, cb}) => {
     const [selectedFile, setSelectedFile] = useState()
 	const [isFilePicked, setIsFilePicked] = useState(false)
     const [loadingError, setLoadingError] = useState(null)
@@ -20,9 +18,9 @@ const FileLoader = ({id}) => {
         setIsFilePicked(false)
         const formData = new FormData()
         formData.append('filedata', selectedFile)
-        axios.post(`http://localhost:3001/api/upload/${pathname}`, formData, {
+        axios.post(`http://localhost:3001/api/upload/${fileFolder}`, formData, {
         }).then(res => {
-            console.log(res)
+            cb?cb(res.data.link):console.log();;
             setSuccessfulLoading(true)
             setLoadingError(null)
         }).catch((error) => {
@@ -32,7 +30,6 @@ const FileLoader = ({id}) => {
 
     return (
         <form onSubmit={onSubmit}>
-            <h4 className="card-title">Загрузка работы</h4>
             <div className="input-group">
                 <input type="file" className="form-control" name='filedata' onChange={changeHandler}/>
                 {isFilePicked?

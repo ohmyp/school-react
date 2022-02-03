@@ -3,10 +3,8 @@ import { useState, useEffect } from 'react';
 
 const Form = ({ test }) => {
     const inputState = {firstName: '', lastName: '', classNumber: '', classLetter: ''}
-    const errorsState = {firstName: null, lastName: null, classNumber: null, classLetter: null}
     const isOkState = {firstName: false, lastName: false, classNumber: false, classLetter: false}
     const [inputData, setInputData] = useState(inputState)
-    const [formErrors, setFormErrors] = useState(errorsState)
     const [formIsOk, setFormIsOk] = useState(isOkState)
     const [canSubmit, setCanSubmit] = useState(false)
     
@@ -14,14 +12,11 @@ const Form = ({ test }) => {
         const { name, value } = e.target
         setInputData({ ...inputData, [name]: value })
         if (value === ''){
-            setFormErrors({ ...formErrors, [name]: 'Поле должно быть заполнено' })
             setFormIsOk({...formIsOk, [name]: false })
         } else if (value.length > 15) {
-            setFormErrors({ ...formErrors, [name]: 'Превышено допустимое значение' })
             setFormIsOk({...formIsOk, [name]: false })
         }
         else {
-            setFormErrors({ ...formErrors, [name]: null })
             setFormIsOk({...formIsOk, [name]: true })
         }
     }
@@ -35,10 +30,10 @@ const Form = ({ test }) => {
 
     async function sendResults(e){
         e.preventDefault()
-        let resultToSend = {test:{}, user:{}}
+        let resultToSend = {id: test.id, name: test.title, results: {}, user: {}, date: new Date(), max: test.max}
         Object.entries(test.categoryScores).forEach(score => {
             const key = test.categoryNames[score[0]]
-            resultToSend.test[key] = score[1]
+            resultToSend.results[key] = score[1]
         })
         const formData = Object.fromEntries(new FormData(e.target).entries());
         resultToSend.user = formData
@@ -48,7 +43,6 @@ const Form = ({ test }) => {
         console.log(res);
 
     }
-
 
     return (
         <form onSubmit={sendResults} method='post'>
