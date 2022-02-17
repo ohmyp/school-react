@@ -4,14 +4,11 @@ import { FileLoader } from "../../components"
 import { useLocation } from "react-router-dom"
 
 const CreatePost = () => {
-    
-   
-
     const { pathname } = useLocation()
     const fileFolder = pathname.split('/').join('-').slice(1)
 
     const inputState = {id: '', title: '', headText: '', bottomText: '', image: ''}
-    const isOkState = {id: false, title: false, headText: false, bottomText: false, image: false}
+    const isOkState = {id: true, title: false, headText: false, bottomText: false, image: false}
 
     const [inputData, setInputData] = useState(inputState)
     const [formIsOk, setFormIsOk] = useState(isOkState)
@@ -20,6 +17,7 @@ const CreatePost = () => {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
     const [lastPostID, setLastPostID] = useState('')
+    console.log(inputData);
 
     const inputHandler = (e) => {
         const { name, value } = e.target
@@ -34,11 +32,13 @@ const CreatePost = () => {
     useEffect(() => {
         axios.get('http://localhost:3001/api/posts/')
             .then(res => {
-                console.log('posts');
                 setLastPostID(res.data[res.data.length-1].id)
-                setInputData({ ...inputData, id: lastPostID+1 })
+                setInputData({ ...inputData, id: lastPostID+1 || 1 })
                 setFormIsOk({...formIsOk, id: true })
-
+            })
+            .catch(e => {
+                setInputData({ ...inputData, id: 1 })
+                setFormIsOk({...formIsOk, id: true })
             })
     }, [,canSubmit])
     useEffect(() => {
@@ -52,12 +52,11 @@ const CreatePost = () => {
     }, [inputData, formIsOk])
     useEffect(() => {
         setInputData({ ...inputData, image: imgURL })
-        setFormIsOk({...formIsOk, image: imgURL })
+        setFormIsOk({...formIsOk, image: Boolean(imgURL) })
         setSuccess(false)
         setError('')
-
-       // eslint-disable-next-line
     }, [imgURL]);
+
 
     async function createPost(e){
         e.preventDefault()
@@ -95,7 +94,6 @@ const CreatePost = () => {
                 <label htmlFor="image">Вставьте ссылку на картинку или загрузите в форму ниже</label>
             </div>
             <FileLoader fileFolder={fileFolder} cb={setImgURL}/>
-
             <button onClick={createPost} className={canSubmit?'btn btn-primary mt-2':'btn btn-primary mt-2 disabled'}>Создать пост</button>
             {error?<div className='alert alert-danger mt-2'>{error}</div>:<></>}
             {success?<div className='alert alert-success mt-2'>Пост успешно создан</div>:<></>}
