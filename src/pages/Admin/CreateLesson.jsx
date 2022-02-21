@@ -76,11 +76,23 @@ const CreateLesson = () => {
     const addFile = () => {
         inputData.files.push({fileName: selectedFile, href: selectedFile})
         setRefresh(!refresh)
+        if (inputData.files.length < 1){
+            setFormIsOk({...formIsOk, files: false })
+        }
+        else {
+            setFormIsOk({...formIsOk, files: true })
+        }
     }
     const deleteFile = (e) => {
         const toRemove = e.target.value
         inputData.files.pop({fileName:toRemove, href:toRemove})
         setRefresh(!refresh)
+        if (inputData.files.length < 1){
+            setFormIsOk({...formIsOk, files: false })
+        }
+        else {
+            setFormIsOk({...formIsOk, files: true })
+        }
     }
     const refreshFiles = () => {
         setRefresh(!refresh)
@@ -95,14 +107,14 @@ const CreateLesson = () => {
         let foundItem = inputData.files.find(file => file.href === name)
         foundItem.fileName = value
     }
-    console.log(selectedFiles, inputData, selectedFile);
     return (
         <div className="container">
             <h1>Создание карточки урока</h1>
             <select className="form-select mb-2" onChange={categoryOnChange}>
                 <option>Выберите категорию</option>
                 <option value="pupils">Ученику</option>
-                <option value="teachers">Учителя</option>
+                <option value="teachers">Учителю</option>
+                <option value="tests">Анкетирование</option>
             </select>
             <div className="form-floating">
                 <input onChange={inputHandler} value={inputData.id} className="form-control mb-2" name="id" id="id"></input>

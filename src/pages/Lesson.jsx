@@ -7,13 +7,14 @@ const Lesson = () => {
     const { pathname } = useLocation()
     const fileFolder = pathname.split('/').join('-').slice(1)
     const id = pathname.split('/')[pathname.split('/').length-1]
+    const category = pathname.split('/')[pathname.split('/').length-2]
 
     const [lesson, setLesson] = useState(null)
     const [error, setError] = useState(null)
     const [noLessonExists, setNoLessonExists] = useState(null)
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER}/api/profession/teachers`)
+        axios.get(`${process.env.REACT_APP_SERVER}/api/profession/${category}`)
         .then(res => {
             const data = res.data[id-1]
             setLesson(data)
@@ -30,18 +31,17 @@ const Lesson = () => {
             <h4 className="card-title">Загрузка работы</h4>
             <FileLoader fileFolder={fileFolder}/>
             <div className="col-sm-12 col-md-6 col-lg-3">
-                <div className="row mt-2">
-                        {lesson ? lesson.files.map(file => {
-                                return <div className="card" style={{width: 'auto'}}>
-                                            <img src={lesson.image} className="card-img-top" alt="..."/>
-                                            <div className="card-body">
-                                                <h5 className="card-text">{file.fileName}</h5>
-                                                <a href={`${process.env.REACT_APP_SERVER}/api/download/`+file.href} className='btn btn-primary w-100'>Скачать</a>
-                                            </div>
-                                        </div>
-                                            })
-                        : <>Загрузка...</>}
-                </div>
+                {lesson ? lesson.files.map(file => {
+                    return <div className="card mt-2 text-center" style={{width: 'auto'}}>
+                                <p class="card-header">Материалы для выполенения задания</p>
+                                <div className="card-body">
+                                    <h4 className="card-title">{file.fileName}</h4>
+                                    <p className="card-text">Нажмите кнопку ниже, чтобы загрузить материалы</p>
+                                    <a href={`${process.env.REACT_APP_SERVER}/api/download/`+file.href} className='btn btn-primary w-100'>Скачать</a>
+                                </div>
+                            </div>
+                    })
+                : <>Загрузка...</>}
             </div>
         </div>
     );

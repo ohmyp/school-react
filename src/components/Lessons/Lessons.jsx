@@ -6,10 +6,7 @@ const Lessons = ({lessons}) => {
             {lessons.map((lesson, i) =>{
                 return <LessonPreview
                     title={lesson.title}
-                    image={lesson.image}
                     id={lesson.id}
-                    author={lesson.author}
-                    date={lesson.date}
                     key={lesson.id}
                 />     
             })}    

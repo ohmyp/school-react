@@ -18,7 +18,7 @@ const FileLoader = ({fileFolder, cb}) => {
         setIsFilePicked(false)
         const formData = new FormData()
         formData.append('filedata', selectedFile)
-        axios.post(`http://localhost:3001/api/upload/${fileFolder}`, formData, {
+        axios.post(`${process.env.REACT_APP_SERVER}/api/upload/${fileFolder}`, formData, {
         }).then(res => {
             cb?cb(res.data.link):console.log();;
             setSuccessfulLoading(true)
