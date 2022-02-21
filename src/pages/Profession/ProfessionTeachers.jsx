@@ -8,7 +8,7 @@ const ProfessionTeachers = () => {
     const [error, setError] = useState(null)
     
     useEffect(() => {
-        axios.get(`http://localhost:3001/api/profession/teachers`)
+        axios.get(`${process.env.REACT_APP_SERVER}/api/profession/teachers`)
         .then(
             res => {
                 const data = res.data

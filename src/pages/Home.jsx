@@ -5,9 +5,8 @@ import axios from 'axios'
 const Home = () => {
     const [posts, setPosts] = useState([])
     const [error, setError] = useState(null)
-    
     useEffect(() => {
-        axios.get(`http://localhost:3001/api/posts`)
+        axios.get(`${process.env.REACT_APP_SERVER}/api/posts`)
         .then(
             res => {
                 const data = res.data

@@ -30,7 +30,7 @@ const CreatePost = () => {
         }
     }
     useEffect(() => {
-        axios.get('http://localhost:3001/api/posts/')
+        axios.get(`${process.env.REACT_APP_SERVER}/api/posts/`)
             .then(res => {
                 setLastPostID(res.data[res.data.length-1].id)
                 setInputData({ ...inputData, id: lastPostID+1 || 1 })
@@ -40,7 +40,7 @@ const CreatePost = () => {
                 setInputData({ ...inputData, id: 1 })
                 setFormIsOk({...formIsOk, id: true })
             })
-    }, [,canSubmit])
+    }, [canSubmit,])
     useEffect(() => {
         setSuccess(false)
         setError('')
@@ -60,7 +60,7 @@ const CreatePost = () => {
 
     async function createPost(e){
         e.preventDefault()
-        axios.post('http://localhost:3001/api/posts/create/', inputData)
+        axios.post(`${process.env.REACT_APP_SERVER}/api/posts/create/`, inputData)
         .then(res => {
             setSuccess(true)
         })

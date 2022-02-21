@@ -1,7 +1,7 @@
 import './App.css';
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import { Home, Outschool, Portfolio, ProfessionPupils, ProfessionTeachers, Projects, NotFound } from './pages/index'
+import { Home, Outschool, Portfolio, ProfessionPupils, ProfessionTeachers, Projects, NotFound, CreateLesson } from './pages/index'
 import { Tests, TestQuiz, Post, Lesson, CreatePost } from './pages/index'
 
 import { Header, Footer } from "./components/index";
@@ -33,6 +33,7 @@ function App() {
         <Route path='/profession/tests/:testName' element={<TestQuiz testList={testList}/>}/>
 
         <Route path='/admin/createpost' element={<CreatePost />} />
+        <Route path='/admin/createlesson' element={<CreateLesson />} />
 
         <Route path='/notfound' element={<NotFound />} />
         <Route

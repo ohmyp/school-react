@@ -8,7 +8,7 @@ const Tests = () => {
     const [error, setError] = useState(null)
     
     useEffect(() => {
-        axios.get(`http://localhost:3001/api/profession/tests`)
+        axios.get(`${process.env.REACT_APP_SERVER}/api/profession/tests`)
         .then(
             res => {
                 const data = res.data

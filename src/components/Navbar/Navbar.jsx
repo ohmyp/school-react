@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from "react-router-dom";
 import Logo from '../../images/logo.png'
 
@@ -24,14 +23,8 @@ const Nav = () => {
                     <li className="nav-item">
                         <Link className="nav-link disabled" to="/outschool">Внеурочная деятельность</Link>
                     </li>
-                    <li className="nav-item dropdown">
-                        <Link className="nav-link dropdown-toggle" to="/portfolio" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Все для портфолио
-                        </Link>
-                        <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><Link className="dropdown-item" to="/portfolio/1">Олимпиады для учеников 5-8 классов</Link></li>
-                            <li><Link className="dropdown-item" to="/portfolio/2">Олимпиады для учеников 9-11 классов</Link></li>
-                        </ul>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/portfolio">Портфолио</Link>
                     </li>
                     <li className="nav-item dropdown">
                         <Link className="nav-link dropdown-toggle" to="/profession" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
