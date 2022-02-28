@@ -25,6 +25,9 @@ const TestQuiz = ({testList}) => {
         navigate(-1)
     }
     
+    document.title = `${test.title}`
+
+
     return (
         <div className='container'>
             <button type="button" className="btn-close" aria-label="Close" onClick={closeTest}></button>

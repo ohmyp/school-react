@@ -3,8 +3,8 @@ import axios from "axios"
 import { FileLoader } from "../../components"
 import { useLocation } from "react-router-dom"
 
-const CreateLesson = () => {
-    document.title = "Создание урока"
+const UpdateLesson = () => {
+    document.title = "Редактирование урока"
     const { pathname } = useLocation()
     const fileFolder = pathname.split('/').join('-').slice(1)
     const inputState = {type: '', id: '', title: '', files:[]}
@@ -13,6 +13,8 @@ const CreateLesson = () => {
     const [category, setCategory] = useState(null)
     const [files, setFiles] = useState([])
     const [selectedFile, setSelectedFile] = useState(null)
+    const [lessons, setLessons] = useState([])
+    const [lessonNumber, setLessonNumber] = useState(null)
     const [refresh, setRefresh] = useState(true)
 
     const [inputData, setInputData] = useState(inputState)
@@ -20,7 +22,9 @@ const CreateLesson = () => {
     const [canSubmit, setCanSubmit] = useState(false)
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
-    console.log(inputData);
+    const [deleteSuccess, setDeleteSuccess] = useState(false)
+
+    console.log(formIsOk);
     
     useEffect(() => {
         setSuccess(false)
@@ -33,6 +37,13 @@ const CreateLesson = () => {
     }, [inputData, formIsOk])
 
     useEffect(() => {
+        axios.get(`${process.env.REACT_APP_SERVER}/api/profession/${category}/`)
+            .then(res => {
+               setLessons(res.data)
+            })
+            .catch(e => {
+                console.log(e)
+            })
         axios.get(`${process.env.REACT_APP_SERVER}/api/files/createlesson`)
             .then(res => {
                 setFiles(JSON.parse(res.data))
@@ -42,16 +53,35 @@ const CreateLesson = () => {
             })
     }, [category, refresh])
 
-    async function createPost(e){
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_SERVER}/api/profession/${category}/${lessonNumber}`)
+            .then(res => {
+                    if (res.data){
+                        setInputData({ 
+                            ...inputData, 
+                            id: res.data.id, 
+                            title: res.data.title, 
+                            files: res.data.files, 
+                            type: res.data.type 
+                        })
+                        setFormIsOk({...formIsOk, id: true, title: true, files: true, type: true })
+                    }
+            })
+            .catch(e => {
+                console.log(e)
+            })
+    }, [lessonNumber, refresh]);
+
+    async function updateLesson(e){
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_SERVER}/api/profession/${category}/create/`, inputData)
+        axios.post(`${process.env.REACT_APP_SERVER}/api/profession/${category}/${inputData.id}/update/`, inputData)
         .then(res => {
             setSuccess(true)
         })
         .catch( (error) => {
-              setError(error.response.data.message)
-              setSuccess(false)
-          });
+            setError(error.response.data.message)
+            setSuccess(false)
+        });
     }
     const inputHandler = (e) => {
         const { name, value } = e.target
@@ -97,23 +127,45 @@ const CreateLesson = () => {
         let foundItem = inputData.files.find(file => file.href === name)
         foundItem.fileName = value
     }
+    const deleteLesson = (e) => {
+        e.preventDefault()
+        axios.get(`${process.env.REACT_APP_SERVER}/api/profession/${category}/${inputData.id}/delete/`)
+        .then(res => {
+            setDeleteSuccess(true)
+            setInputData(inputState)
+            setRefresh(!refresh)
+            setFormIsOk(isOkState)
+        })
+        .catch( (error) => {
+            setError(error.response.data.message)
+            setDeleteSuccess(false)
+        });
+    }
     return (
         <div className="container">
-            <h1>Создание карточки урока</h1>
+            <h1>Редактирование карточки урока</h1>
             <select className="form-select mb-2" onChange={categoryOnChange}>
                 <option>Выберите категорию</option>
                 <option value="pupils">Ученику</option>
                 <option value="teachers">Учителю</option>
                 <option value="tests">Анкетирование</option>
             </select>
+
+            <select disabled={!category} className="form-select mb-2 disabled" onChange={e => setLessonNumber(e.target.value)}>
+                    <option>Выберите урок</option>
+                    {lessons.length > 0 ? lessons.map(lesson => <option key={lesson.title} value={lesson.id}>{lesson.id}. {lesson.title}</option>) : <></>}
+            </select>
+
             <div className="form-floating">
-                <input onChange={inputHandler} value={inputData.id} className="form-control mb-2" name="id" id="id"></input>
+                <input disabled={!lessonNumber} onChange={inputHandler} value={inputData.id} className="form-control mb-2" name="id" id="id"></input>
                 <label htmlFor="id">Номер занятия</label>
             </div>
+
             <div className="form-floating">
-                <input onChange={inputHandler} value={inputData.title} className="form-control mb-2" name="title" id="title"></input>
+                <input disabled={!lessonNumber} onChange={inputHandler} value={inputData.title} className="form-control mb-2" name="title" id="title"></input>
                 <label htmlFor="title">Заголовок</label>
             </div>
+
             <div className="mb-2">
                 <label>Прикрепить файлы</label>
                 <select className="form-select mb-2" onChange={e => setSelectedFile(e.target.value)}>
@@ -125,22 +177,26 @@ const CreateLesson = () => {
                 {inputData.files.length > 0 ? 
                 inputData.files.map((file, i) => 
                     <div className="input-group mt-2" key={file.href + i}>
-                        <input name={file.href} className="form-control" placeholder={file.href} onChange={renameFile}/>
+                        <input name={file.href} className="form-control" placeholder={file.fileName} onChange={renameFile}/>
                         <button className="btn btn-outline-secondary" type="button" id="button-addon2" value={file.href} onClick={deleteFile}>Удалить</button>
                     </div>
                 ) 
                 : <></>}
             </div>
+
             <div className="mb-2">
                 <label>Загрузить файлы</label>
                 <FileLoader fileFolder={fileFolder} cb={null}/>
             </div>
-            <button onClick={createPost} className={canSubmit?'btn btn-primary mt-2':'btn btn-primary mt-2 disabled'}>Создать урок</button>
+
+            <button onClick={updateLesson} className={canSubmit?'btn btn-primary mt-2':'btn btn-primary mt-2 disabled'}>Обновить урок</button>
+            <button onClick={deleteLesson} className={canSubmit&lessonNumber?'btn btn-danger mt-2 ms-2':'btn btn-danger mt-2 ms-2 disabled'}>Удалить урок</button>
             {error?<div className='alert alert-danger mt-2'>{error}</div>:<></>}
-            {success?<div className='alert alert-success mt-2'>Урок успешно создан</div>:<></>}
+            {success?<div className='alert alert-success mt-2'>Урок успешно обновлен</div>:<></>}
+            {deleteSuccess?<div className='alert alert-warning mt-2'>Урок успешно удален</div>:<></>}
 
         </div>
     );
 }
 
-export default CreateLesson;
+export default UpdateLesson;

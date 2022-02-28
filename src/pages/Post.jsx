@@ -19,6 +19,10 @@ const Post = () => {
 
     if (error) {return (<h2 className='container'>{error.message}</h2>)}
     if (!post) {return (<h2 className='container'>Loading</h2>)}
+
+    document.title = `${post.title}`
+
+
     return (
         <div className='container'>
             <div className="p-5 mb-4 bg-light rounded-3 border">

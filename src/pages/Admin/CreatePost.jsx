@@ -4,6 +4,8 @@ import { FileLoader } from "../../components"
 import { useLocation } from "react-router-dom"
 
 const CreatePost = () => {
+    document.title = "Создание поста"
+
     const { pathname } = useLocation()
     const fileFolder = pathname.split('/').join('-').slice(1)
 

@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react/cjs/react.development';
 import axios from 'axios';
 
 const Tests = () => {
+    document.title = `Анкетирование`
+
 
     const [lessons, setLessons] = useState([])
     const [error, setError] = useState(null)

@@ -3,6 +3,8 @@ import { TitleCard, Posts } from '../components/index';
 import axios from 'axios'
 
 const Home = () => {
+    document.title = "Единая школа"
+
     const [posts, setPosts] = useState([])
     const [error, setError] = useState(null)
     useEffect(() => {

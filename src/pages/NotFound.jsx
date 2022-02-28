@@ -4,6 +4,8 @@ const NotFound = () => {
     const goBack = () => {
         navigate(-2)
     }
+    
+    document.title = "Страница не найдена"
 
     return (
         <div className='container'>
