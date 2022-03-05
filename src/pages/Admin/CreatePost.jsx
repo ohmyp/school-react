@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { FileLoader } from "../../components"
+import { CloseButton, FileLoader } from "../../components"
 import { useLocation } from "react-router-dom"
 
 const CreatePost = () => {
@@ -74,6 +74,7 @@ const CreatePost = () => {
 
     return (
         <div className="container">
+            <CloseButton/>
             <h1>Создание поста</h1>
             <div className="form-floating">
                 <input value={lastPostID+1} className="form-control mb-2" disabled name="id" id="id"></input>

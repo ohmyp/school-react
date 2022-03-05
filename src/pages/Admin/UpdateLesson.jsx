@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { FileLoader } from "../../components"
+import { CloseButton, FileLoader } from "../../components"
 import { useLocation } from "react-router-dom"
 
 const UpdateLesson = () => {
@@ -143,6 +143,7 @@ const UpdateLesson = () => {
     }
     return (
         <div className="container">
+            <CloseButton/>
             <h1>Редактирование карточки урока</h1>
             <select className="form-select mb-2" onChange={categoryOnChange}>
                 <option>Выберите категорию</option>

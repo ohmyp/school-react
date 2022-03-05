@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
-import { FileLoader } from "../../components"
+import { CloseButton, FileLoader } from "../../components"
 import { useLocation } from "react-router-dom"
 
 const CreatePost = () => {
@@ -81,7 +81,7 @@ const CreatePost = () => {
 
     async function updatePost(e){
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_SERVER}/api/posts/${inputData.id}/update/`, inputData)
+        await axios.post(`${process.env.REACT_APP_SERVER}/api/posts/${inputData.id}/update/`, inputData)
         .then(res => {
             setSuccess(true)
         })
@@ -103,8 +103,8 @@ const CreatePost = () => {
     }
     return (
         <div className="container">
+            <CloseButton/>
             <h1>Редактирование поста</h1>
-
             <select className="form-select mb-2 disabled" onChange={e => setPostNumber(e.target.value)}>
                     <option value={0}>Выберите пост</option>
                     {posts.length > 0 ? posts.map(post => <option key={post.title} value={post.id}>{post.id}. {post.title}</option>) : <></>}

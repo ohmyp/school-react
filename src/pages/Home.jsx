@@ -4,15 +4,13 @@ import axios from 'axios'
 
 const Home = () => {
     document.title = "Единая школа"
-
     const [posts, setPosts] = useState([])
     const [error, setError] = useState(null)
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_SERVER}/api/posts`)
-        .then(
-            res => {
-                const data = res.data
-                setTimeout(() => {setPosts(data)}, 500)},
+        .then(res => {
+                setTimeout(() => {setPosts(res.data)}, 500)
+            },
             err => {setError(err)}
         )
     }, [])

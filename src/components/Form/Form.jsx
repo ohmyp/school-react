@@ -7,6 +7,8 @@ const Form = ({ test }) => {
     const [inputData, setInputData] = useState(inputState)
     const [formIsOk, setFormIsOk] = useState(isOkState)
     const [canSubmit, setCanSubmit] = useState(false)
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(false);
     
     const inputHandler = (e) => {
         const { name, value } = e.target
@@ -37,11 +39,15 @@ const Form = ({ test }) => {
         })
         const formData = Object.fromEntries(new FormData(e.target).entries());
         resultToSend.user = formData
-    
-        console.log(resultToSend);
-        const res = await axios.post('http://localhost:3001/api/results/', resultToSend);
-        console.log(res);
-
+        await axios.post('http://localhost:3001/api/results/', resultToSend)
+        .then(res => { 
+            setSuccess(true)
+            setError(false)
+        })
+        .catch(e => {
+            setSuccess(false)
+            setError(true)
+        })
     }
 
     return (
@@ -81,6 +87,8 @@ const Form = ({ test }) => {
                 </select>
             </div>
             <button className={canSubmit?'btn btn-primary mt-2':'btn btn-primary mt-2 disabled'}>Отправить</button>
+            {error?<div className='alert alert-danger mt-2'>Ошибка при отправке результатов</div>:<></>}
+            {success?<div className='alert alert-success mt-2'>Результаты успешно отправлены</div>:<></>}
         </form>
     );
 }
