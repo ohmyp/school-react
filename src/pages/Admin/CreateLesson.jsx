@@ -44,7 +44,11 @@ const CreateLesson = () => {
 
     async function createPost(e){
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_SERVER}/api/profession/${category}/create/`, inputData)
+        await axios.post(`${process.env.REACT_APP_SERVER}/api/profession/${category}/create/`, inputData, {
+            headers: {
+             'Authorization': `Bearer ${localStorage.access_token}`   
+            }
+        })
         .then(res => {
             setSuccess(true)
         })

@@ -1,21 +1,24 @@
 import axios from "axios"
 import { useState } from "react"
+import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 const Login = () => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
 
-    if (localStorage.role) {return <Navigate to="/"/>}
+    const dispatch = useDispatch()
+
+    if (localStorage.access_token) {return <Navigate to="/"/>}
     const handleSubmit = async (e) => {
         e.preventDefault()
         await axios.post(`${process.env.REACT_APP_SERVER}/api/auth/login`, { username: login, password })
-        .then(res => {
-            const {accessToken, username, role} = res.data
+        .then(async res => {
+            const {accessToken, username, role, name, surname, middlename} = res.data
+            console.log(res.data);
             localStorage.access_token = accessToken
-            localStorage.username = username
-            localStorage.role = role
             window.location.reload()
+            await dispatch({type: "ADD_USER", payload: {username, role, name, surname, middlename}})
         })
     }
     return (

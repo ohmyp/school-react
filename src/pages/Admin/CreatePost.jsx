@@ -62,7 +62,11 @@ const CreatePost = () => {
 
     async function createPost(e){
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_SERVER}/api/posts/create/`, inputData)
+        await axios.post(`${process.env.REACT_APP_SERVER}/api/posts/create/`, inputData, {
+            headers: {
+             'Authorization': `Bearer ${localStorage.access_token}`   
+            }
+        })
         .then(res => {
             setSuccess(true)
         })

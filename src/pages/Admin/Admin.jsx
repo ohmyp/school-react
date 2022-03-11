@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 const Admin = () => {
     document.title = "Панель администрирования"
+    
     return (
         <div className='container'>
             <h2>Панель администрирования</h2>

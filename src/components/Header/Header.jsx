@@ -1,6 +1,8 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Logo from '../../images/logo.png'
 const Header = () => {
+    const user = useSelector(state => state.user)
     const logout = () => {
         localStorage.removeItem('access_token')
         localStorage.removeItem('username')
@@ -67,18 +69,26 @@ const Header = () => {
                                 </ul>
                             </li>
                         </ul>
-                        {!localStorage.username ?
+                        {!localStorage.access_token ?
                         <Link to="/login" className="navbar-text">
                             Войти
                         </Link> :
                         <div className="dropdown">
                             <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                {localStorage.username}
+                                {user?.username}
                             </button>
                             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                {localStorage.role === "admin"? 
-                                <li><Link className="dropdown-item" to="/admin">Администрирование</Link></li>:
-                                <li><Link className="dropdown-item disabled" to="/projects">Проекты</Link></li>
+                                {user?.role === "admin"
+                                ? 
+                                <>
+                                    <li><Link className="dropdown-item" to="/profile">Профиль</Link></li>
+                                    <li><Link className="dropdown-item" to="/admin">Администрирование</Link></li>
+                                </>
+                                :
+                                <>
+                                    <li><Link className="dropdown-item" to="/profile">Профиль</Link></li>
+                                    <li><Link className="dropdown-item disabled" to="/projects">Проекты</Link></li>
+                                </>
                                 }
                                 <li><button className="dropdown-item " onClick={logout}>Выйти</button></li>
                             </ul>

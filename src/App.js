@@ -1,14 +1,33 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import { Home, Outschool, Portfolio, ProfessionPupils, ProfessionTeachers, Projects, NotFound, CreateLesson, UpdateLesson, UpdatePost, Login, Admin, TestStatistics } from './pages/index'
+import { Home, Outschool, Portfolio, ProfessionPupils, ProfessionTeachers, Projects, NotFound, CreateLesson, UpdateLesson, UpdatePost, Login, Admin, TestStatistics, Profile } from './pages/index'
 import { Tests, TestQuiz, Post, Lesson, CreatePost } from './pages/index'
 
 import { Header, Footer } from "./components/index";
 
 import testList from './test_sources/index'
 import Authprovider from "./providers/AuthProvider";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { useEffect } from "react";
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const fetchData = async () => {
+      const posts = await axios.get(`${process.env.REACT_APP_SERVER}/api/posts`)
+      const teachers = await axios.get(`${process.env.REACT_APP_SERVER}/api/profession/teachers`)
+      const pupils = await axios.get(`${process.env.REACT_APP_SERVER}/api/profession/pupils`)
+      const tests = await axios.get(`${process.env.REACT_APP_SERVER}/api/profession/tests`)
+      const user = await axios.get(`${process.env.REACT_APP_SERVER}/api/auth`, {headers: {'Authorization': `Bearer ${localStorage.access_token}`}})
+      
+      await dispatch({type: "ADD_POSTS", payload: posts.data})
+      await dispatch({type: "ADD_LESSONS", payload: {teachers: teachers.data, pupils: pupils.data, tests: tests.data}})
+      await dispatch({type: "ADD_USER", payload: user.data})
+    }
+    fetchData()
+  }, [])
+
   return (
     <div className='d-flex flex-column h-100'>
         
@@ -31,6 +50,8 @@ function App() {
         <Route path='/profession/teachers/:lessonID' element={<Lesson />}/>
         <Route path='/profession/tests' element={<Tests />}/>
         <Route path='/profession/tests/:testName' element={<TestQuiz testList={testList}/>}/>
+
+        <Route path='/Profile' element={<Profile />}/>
 
         <Route path='/admin' element={<Authprovider children={<Admin />} />}/>
         <Route path='/admin/createpost' element={<Authprovider children={<CreatePost />} />}/>

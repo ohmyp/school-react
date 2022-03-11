@@ -81,7 +81,11 @@ const CreatePost = () => {
 
     async function updatePost(e){
         e.preventDefault()
-        await axios.post(`${process.env.REACT_APP_SERVER}/api/posts/${inputData.id}/update/`, inputData)
+        await axios.post(`${process.env.REACT_APP_SERVER}/api/posts/${inputData.id}/update/`, inputData, {
+            headers: {
+             'Authorization': `Bearer ${localStorage.access_token}`   
+            }
+        })
         .then(res => {
             setSuccess(true)
         })
@@ -92,7 +96,11 @@ const CreatePost = () => {
     }
     async function deletePost(e) {
         e.preventDefault()
-        axios.get(`${process.env.REACT_APP_SERVER}/api/posts/${inputData.id}/delete/`)
+        await axios.get(`${process.env.REACT_APP_SERVER}/api/posts/${inputData.id}/delete/`, {
+            headers: {
+             'Authorization': `Bearer ${localStorage.access_token}`   
+            }
+        })
         .then(res => {
             setDeleteSuccess(true)
         })

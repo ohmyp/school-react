@@ -1,24 +1,9 @@
 import { TitleCard, Lessons } from '../../components';
-import { useState, useEffect } from 'react/cjs/react.development';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const ProfessionTeachers = () => {
     document.title = `Учителю`
-
-    const [lessons, setLessons] = useState([])
-    const [error, setError] = useState(null)
-    
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER}/api/profession/teachers`)
-        .then(
-            res => {
-                const data = res.data
-                setTimeout(() => {setLessons(data)}, 500)},
-            err => {setError(err)}
-        )
-    }, [])
-    
-    if (error) {return (<h2 className='container'>{error.message}</h2>)}
+    const lessons = useSelector(state => state.lessons.teachers)
 
     return (
         <div className='container'>
@@ -27,7 +12,7 @@ const ProfessionTeachers = () => {
                 subtitle={'Задания для учителя'}
             />
         {
-            lessons.length ? <Lessons lessons={lessons}></Lessons> : <h2 className='container'>Загрузка...</h2>
+            lessons ? <Lessons lessons={lessons}></Lessons> : <h2 className='container'>Загрузка...</h2>
             
         }
             

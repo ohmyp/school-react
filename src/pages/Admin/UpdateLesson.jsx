@@ -73,8 +73,12 @@ const UpdateLesson = () => {
     }, [lessonNumber, refresh]);
 
     async function updateLesson(e){
-        e.preventDefault()
-        axios.post(`${process.env.REACT_APP_SERVER}/api/profession/${category}/${inputData.id}/update/`, inputData)
+        e.preventDefault();
+        await axios.post(`${process.env.REACT_APP_SERVER}/api/profession/${category}/${inputData.id}/update/`, inputData, {
+            headers: {
+             'Authorization': `Bearer ${localStorage.access_token}`   
+            }
+        })
         .then(res => {
             setSuccess(true)
         })
@@ -127,9 +131,13 @@ const UpdateLesson = () => {
         let foundItem = inputData.files.find(file => file.href === name)
         foundItem.fileName = value
     }
-    const deleteLesson = (e) => {
-        e.preventDefault()
-        axios.get(`${process.env.REACT_APP_SERVER}/api/profession/${category}/${inputData.id}/delete/`)
+    const deleteLesson = async (e) => {
+        e.preventDefault();
+        await axios.get(`${process.env.REACT_APP_SERVER}/api/profession/${category}/${inputData.id}/delete/`, {
+            headers: {
+             'Authorization': `Bearer ${localStorage.access_token}`   
+            }
+        })
         .then(res => {
             setDeleteSuccess(true)
             setInputData(inputState)

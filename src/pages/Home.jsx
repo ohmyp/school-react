@@ -1,29 +1,19 @@
-import { React, useState, useEffect } from 'react';
+import { React } from 'react';
 import { TitleCard, Posts } from '../components/index';
-import axios from 'axios'
+import { useSelector } from 'react-redux';
 
 const Home = () => {
     document.title = "Единая школа"
-    const [posts, setPosts] = useState([])
-    const [error, setError] = useState(null)
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER}/api/posts`)
-        .then(res => {
-                setTimeout(() => {setPosts(res.data)}, 500)
-            },
-            err => {setError(err)}
-        )
-    }, [])
-
-    if (error) {return (<h2 className='container'>{error.message}</h2>)}
+    const posts = useSelector(state => state.posts)
+    console.log(useSelector(state => state))
     
-    else return (
+    return (
         <div className='container'>
             <TitleCard 
                 title={'Ищу свой путь'} 
                 subtitle={'портал профориентации, проектной и внеурочной деятельности'}
             />
-            {posts.length ? <Posts posts={posts}></Posts> : <h2 className='container'>Загрузка...</h2>}
+            {posts ? <Posts posts={posts}></Posts> : <h2 className='container'>Загрузка...</h2>}
         </div>
     );
 }

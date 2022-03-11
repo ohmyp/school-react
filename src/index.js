@@ -6,25 +6,22 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 const defaultState = {
-  token: null,
-  username: null, 
-  role: null
+  user: null,
+  posts: null,
+  lessons: null,
 }
 const reducer = (state = defaultState, action) => {
   switch (action.type){
-    case "ADD_TOKEN":
-      return {...state, token: action.payload}
-    case "DELETE_TOKEN":
-      return {...state, token: null}
-    case "ADD_USERNAME":
-      return {...state, username: action.payload}
-    case "DELETE_USERNAME":
-      return {...state, username: null}
-    case "ADD_ROLE":
-      return {...state, role: action.payload}
-    case "DELETE_ROLE":
-      return {...state, role: null}
-
+    case "ADD_USER":
+      return {...state, user: action.payload}
+    case "DELETE_USER":
+      return {...state, user: null}
+    case "ADD_POSTS":
+      return {...state, posts: action.payload}
+    case "ADD_LESSONS":
+      return {...state, lessons: action.payload}
+   
+    
     default:
       return state
   }
