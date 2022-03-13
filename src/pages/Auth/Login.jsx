@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 const Login = () => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -14,11 +15,16 @@ const Login = () => {
         e.preventDefault()
         await axios.post(`${process.env.REACT_APP_API}/api/auth/login`, { username: login, password })
         .then(async res => {
-            const {accessToken, username, role, name, surname, middlename} = res.data
-            console.log(res.data);
-            localStorage.access_token = accessToken
-            window.location.reload()
-            await dispatch({type: "ADD_USER", payload: {username, role, name, surname, middlename}})
+            const {accessToken, username, role, name, surname, middlename, error} = res.data
+            if (error) setError(error)
+            else {
+                setError(false)
+                localStorage.access_token = accessToken
+                window.location.reload()
+                await dispatch({type: "ADD_USER", payload: {username, role, name, surname, middlename}})
+            }
+            
+            
         })
     }
     return (
@@ -35,6 +41,7 @@ const Login = () => {
                     <label htmlFor="floatingPassword">Пароль</label>
                 </div>
                 <button className="w-100 btn btn-lg btn-primary mt-2" type="submit" onClick={handleSubmit}>Войти</button>
+                {error ? <div className="alert alert-danger mt-2" role="alert">{error}</div> : <></>}
             </form>
         </div>
         </div>

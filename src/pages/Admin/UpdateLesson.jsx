@@ -23,8 +23,6 @@ const UpdateLesson = () => {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
     const [deleteSuccess, setDeleteSuccess] = useState(false)
-
-    console.log(formIsOk);
     
     useEffect(() => {
         setSuccess(false)
@@ -160,7 +158,7 @@ const UpdateLesson = () => {
                 <option value="tests">Анкетирование</option>
             </select>
 
-            <select disabled={!category} className="form-select mb-2 disabled" onChange={e => setLessonNumber(e.target.value)}>
+            <select disabled={!category} className="form-select mb-2 disabled" onChange={e => {setLessonNumber(e.target.value); setRefresh(!refresh)}}>
                     <option>Выберите урок</option>
                     {lessons.length > 0 ? lessons.map(lesson => <option key={lesson.title} value={lesson.id}>{lesson.id}. {lesson.title}</option>) : <></>}
             </select>
@@ -199,7 +197,7 @@ const UpdateLesson = () => {
             </div>
 
             <button onClick={updateLesson} className={canSubmit?'btn btn-primary mt-2':'btn btn-primary mt-2 disabled'}>Обновить урок</button>
-            <button onClick={deleteLesson} className={canSubmit&lessonNumber?'btn btn-danger mt-2 ms-2':'btn btn-danger mt-2 ms-2 disabled'}>Удалить урок</button>
+            <button onClick={deleteLesson} className={canSubmit&&lessonNumber?'btn btn-danger mt-2 ms-2':'btn btn-danger mt-2 ms-2 disabled'}>Удалить урок</button>
             {error?<div className='alert alert-danger mt-2'>{error}</div>:<></>}
             {success?<div className='alert alert-success mt-2'>Урок успешно обновлен</div>:<></>}
             {deleteSuccess?<div className='alert alert-warning mt-2'>Урок успешно удален</div>:<></>}
