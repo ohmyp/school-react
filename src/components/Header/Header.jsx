@@ -5,8 +5,6 @@ const Header = () => {
     const user = useSelector(state => state.user)
     const logout = () => {
         localStorage.removeItem('access_token')
-        localStorage.removeItem('username')
-        localStorage.removeItem('role')
         window.location.reload();
     }
     return (
@@ -86,7 +84,7 @@ const Header = () => {
                                 </>
                                 :
                                 <>
-                                    <li><Link className="dropdown-item" to="/profile">Профиль</Link></li>
+                                    <li><Link className="dropdown-item disabled" to="/profile">Профиль</Link></li>
                                     <li><Link className="dropdown-item disabled" to="/projects">Проекты</Link></li>
                                 </>
                                 }

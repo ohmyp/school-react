@@ -39,8 +39,9 @@ const Form = ({ test }) => {
         })
         const formData = Object.fromEntries(new FormData(e.target).entries());
         resultToSend.user = formData
-        await axios.post('http://localhost:3001/api/results/', resultToSend)
+        await axios.post(`${process.env.REACT_APP_API}/api/results/`, resultToSend)
         .then(res => { 
+            console.log('sent');
             setSuccess(true)
             setError(false)
         })

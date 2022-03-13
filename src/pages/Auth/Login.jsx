@@ -12,7 +12,7 @@ const Login = () => {
     if (localStorage.access_token) {return <Navigate to="/"/>}
     const handleSubmit = async (e) => {
         e.preventDefault()
-        await axios.post(`${process.env.REACT_APP_SERVER}/api/auth/login`, { username: login, password })
+        await axios.post(`${process.env.REACT_APP_API}/api/auth/login`, { username: login, password })
         .then(async res => {
             const {accessToken, username, role, name, surname, middlename} = res.data
             console.log(res.data);

@@ -14,7 +14,7 @@ const Lesson = () => {
     const [noLessonExists, setNoLessonExists] = useState(null)
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER}/api/profession/${category}/${id}`)
+        axios.get(`${process.env.REACT_APP_API}/api/profession/${category}/${id}`)
         .then(res => {
             const data = res.data
             setLesson(data)
@@ -39,7 +39,7 @@ const Lesson = () => {
                                 <div className="card-body">
                                     <h4 className="card-title">{file.fileName}</h4>
                                     <p className="card-text">Нажмите кнопку ниже, чтобы загрузить материалы</p>
-                                    <a href={`${process.env.REACT_APP_SERVER}/api/download/`+file.href} className='btn btn-primary w-100'>Скачать</a>
+                                    <a href={`${process.env.REACT_APP_API}/api/download/`+file.href} className='btn btn-primary w-100'>Скачать</a>
                                 </div>
                             </div>
                     })

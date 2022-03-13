@@ -8,7 +8,7 @@ const TestStatistics = () => {
     const [filters, setFilters] = useState({klimov: true, belov: true})
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/results/', {
+        axios.get(`${process.env.REACT_APP_API}/api/results/`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.access_token
               }

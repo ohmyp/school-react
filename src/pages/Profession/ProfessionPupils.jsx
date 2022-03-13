@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 
 const ProfessionPupils = () => {
     document.title = `Ученику`
-    const lessons = useSelector(state => state.lessons.pupils)
+    const lessons = useSelector(state => state.lessons?.pupils)
+    if (!lessons) return <div className='container'><h2>Загрузка...</h2></div>
 
     return (
         <div className='container'>

@@ -15,11 +15,11 @@ const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     const fetchData = async () => {
-      const posts = await axios.get(`${process.env.REACT_APP_SERVER}/api/posts`)
-      const teachers = await axios.get(`${process.env.REACT_APP_SERVER}/api/profession/teachers`)
-      const pupils = await axios.get(`${process.env.REACT_APP_SERVER}/api/profession/pupils`)
-      const tests = await axios.get(`${process.env.REACT_APP_SERVER}/api/profession/tests`)
-      const user = await axios.get(`${process.env.REACT_APP_SERVER}/api/auth`, {headers: {'Authorization': `Bearer ${localStorage.access_token}`}})
+      const posts = await axios.get(`${process.env.REACT_APP_API}/api/posts`)
+      const teachers = await axios.get(`${process.env.REACT_APP_API}/api/profession/teachers`)
+      const pupils = await axios.get(`${process.env.REACT_APP_API}/api/profession/pupils`)
+      const tests = await axios.get(`${process.env.REACT_APP_API}/api/profession/tests`)
+      const user = await axios.get(`${process.env.REACT_APP_API}/api/auth`, {headers: {'Authorization': `Bearer ${localStorage.access_token}`}})
       
       await dispatch({type: "ADD_POSTS", payload: posts.data})
       await dispatch({type: "ADD_LESSONS", payload: {teachers: teachers.data, pupils: pupils.data, tests: tests.data}})

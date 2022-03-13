@@ -6,11 +6,10 @@ const Authprovider = ({children}) => {
     const [auth, setauth] = useState(true);
     useEffect(() => {
         const fetchData = async () => {
-            await axios.get(`${process.env.REACT_APP_SERVER}/api/auth`, {
+            await axios.get(`${process.env.REACT_APP_API}/api/auth`, {
                 headers: {'Authorization': `Bearer ${localStorage.access_token}`}
             }).then(res => {
-                console.log(Boolean(res.data?.error))
-                if (res.data?.error) setauth(false)
+                if (res.data?.role === "pupil") setauth(false)
             })
         }  
         fetchData()

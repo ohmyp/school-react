@@ -35,7 +35,7 @@ const CreatePost = () => {
         }
     }
     useEffect(() => {
-        if (postNumber) axios.get(`${process.env.REACT_APP_SERVER}/api/posts/${postNumber}`)
+        if (postNumber) axios.get(`${process.env.REACT_APP_API}/api/posts/${postNumber}`)
             .then(res => {
                 setInputData({ 
                     ...inputData, 
@@ -53,7 +53,7 @@ const CreatePost = () => {
             })
     }, [postNumber])
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER}/api/posts/`)
+        axios.get(`${process.env.REACT_APP_API}/api/posts/`)
             .then(res => {
                 setPosts(res.data);
             })
@@ -81,7 +81,7 @@ const CreatePost = () => {
 
     async function updatePost(e){
         e.preventDefault()
-        await axios.post(`${process.env.REACT_APP_SERVER}/api/posts/${inputData.id}/update/`, inputData, {
+        await axios.post(`${process.env.REACT_APP_API}/api/posts/${inputData.id}/update/`, inputData, {
             headers: {
              'Authorization': `Bearer ${localStorage.access_token}`   
             }
@@ -96,7 +96,7 @@ const CreatePost = () => {
     }
     async function deletePost(e) {
         e.preventDefault()
-        await axios.get(`${process.env.REACT_APP_SERVER}/api/posts/${inputData.id}/delete/`, {
+        await axios.get(`${process.env.REACT_APP_API}/api/posts/${inputData.id}/delete/`, {
             headers: {
              'Authorization': `Bearer ${localStorage.access_token}`   
             }

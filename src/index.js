@@ -21,7 +21,6 @@ const reducer = (state = defaultState, action) => {
     case "ADD_LESSONS":
       return {...state, lessons: action.payload}
    
-    
     default:
       return state
   }

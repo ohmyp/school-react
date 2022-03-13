@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 const Home = () => {
     document.title = "Единая школа"
     const posts = useSelector(state => state.posts)
-    console.log(useSelector(state => state))
     
     return (
         <div className='container'>

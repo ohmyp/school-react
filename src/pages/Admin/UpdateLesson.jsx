@@ -37,14 +37,14 @@ const UpdateLesson = () => {
     }, [inputData, formIsOk])
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER}/api/profession/${category}/`)
+        axios.get(`${process.env.REACT_APP_API}/api/profession/${category}/`)
             .then(res => {
                setLessons(res.data)
             })
             .catch(e => {
                 console.log(e)
             })
-        axios.get(`${process.env.REACT_APP_SERVER}/api/files/createlesson`)
+        axios.get(`${process.env.REACT_APP_API}/api/files/createlesson`)
             .then(res => {
                 setFiles(JSON.parse(res.data))
             })
@@ -54,7 +54,7 @@ const UpdateLesson = () => {
     }, [category, refresh])
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER}/api/profession/${category}/${lessonNumber}`)
+        axios.get(`${process.env.REACT_APP_API}/api/profession/${category}/${lessonNumber}`)
             .then(res => {
                     if (res.data){
                         setInputData({ 
@@ -74,7 +74,7 @@ const UpdateLesson = () => {
 
     async function updateLesson(e){
         e.preventDefault();
-        await axios.post(`${process.env.REACT_APP_SERVER}/api/profession/${category}/${inputData.id}/update/`, inputData, {
+        await axios.post(`${process.env.REACT_APP_API}/api/profession/${category}/${inputData.id}/update/`, inputData, {
             headers: {
              'Authorization': `Bearer ${localStorage.access_token}`   
             }
@@ -133,7 +133,7 @@ const UpdateLesson = () => {
     }
     const deleteLesson = async (e) => {
         e.preventDefault();
-        await axios.get(`${process.env.REACT_APP_SERVER}/api/profession/${category}/${inputData.id}/delete/`, {
+        await axios.get(`${process.env.REACT_APP_API}/api/profession/${category}/${inputData.id}/delete/`, {
             headers: {
              'Authorization': `Bearer ${localStorage.access_token}`   
             }

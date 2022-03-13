@@ -8,7 +8,7 @@ const Post = () => {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER}/api/posts/${postID}`)
+        axios.get(`${process.env.REACT_APP_API}/api/posts/${postID}`)
         .then(
             res => {
                 const data = res.data;

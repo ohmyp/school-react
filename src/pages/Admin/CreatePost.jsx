@@ -32,7 +32,7 @@ const CreatePost = () => {
         }
     }
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER}/api/posts/`)
+        axios.get(`${process.env.REACT_APP_API}/api/posts/`)
             .then(res => {
                 setLastPostID(res.data[res.data.length-1].id)
                 setInputData({ ...inputData, id: lastPostID+1 || 1 })
@@ -62,7 +62,7 @@ const CreatePost = () => {
 
     async function createPost(e){
         e.preventDefault()
-        await axios.post(`${process.env.REACT_APP_SERVER}/api/posts/create/`, inputData, {
+        await axios.post(`${process.env.REACT_APP_API}/api/posts/create/`, inputData, {
             headers: {
              'Authorization': `Bearer ${localStorage.access_token}`   
             }

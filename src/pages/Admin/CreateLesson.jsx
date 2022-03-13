@@ -33,7 +33,7 @@ const CreateLesson = () => {
     }, [inputData, formIsOk])
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_SERVER}/api/files/createlesson`)
+        axios.get(`${process.env.REACT_APP_API}/api/files/createlesson`)
             .then(res => {
                 setFiles(JSON.parse(res.data))
             })
@@ -44,7 +44,7 @@ const CreateLesson = () => {
 
     async function createPost(e){
         e.preventDefault()
-        await axios.post(`${process.env.REACT_APP_SERVER}/api/profession/${category}/create/`, inputData, {
+        await axios.post(`${process.env.REACT_APP_API}/api/profession/${category}/create/`, inputData, {
             headers: {
              'Authorization': `Bearer ${localStorage.access_token}`   
             }

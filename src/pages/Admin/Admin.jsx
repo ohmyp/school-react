@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
-
+import { CloseButton } from '../../components';
 const Admin = () => {
     document.title = "Панель администрирования"
     
     return (
         <div className='container'>
+            <CloseButton/>
             <h2>Панель администрирования</h2>
             <div className="card-group">
                 <div className="card">
