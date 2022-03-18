@@ -97,7 +97,6 @@ const UpdateLesson = () => {
     }
     const addFile = () => {
         inputData.files.push({fileName: selectedFile, href: selectedFile})
-        setRefresh(!refresh)
         if (inputData.files.length < 1){
             setFormIsOk({...formIsOk, files: false })
         }
@@ -106,9 +105,8 @@ const UpdateLesson = () => {
         }
     }
     const deleteFile = (e) => {
-        const toRemove = e.target.value
-        inputData.files.pop({fileName:toRemove, href:toRemove})
-        setRefresh(!refresh)
+        inputData.files = inputData.files.filter(f => f.href !== e.target.value)
+        // inputData.files.pop( {fileName:toRemove, href:toRemove} )
         if (inputData.files.length < 1){
             setFormIsOk({...formIsOk, files: false })
         }
