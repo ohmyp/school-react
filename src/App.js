@@ -10,6 +10,7 @@ import Authprovider from "./providers/AuthProvider";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
+import Test from "./pages/Test";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -62,6 +63,7 @@ const App = () => {
 
         <Route path='/login' element={<Login />} />
 
+        <Route path='/test' element={<Test />} />
         <Route path='/notfound' element={<NotFound />} />
         <Route
           path="*"
