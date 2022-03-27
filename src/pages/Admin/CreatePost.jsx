@@ -3,8 +3,9 @@ import axios from "axios"
 import { CloseButton, FileLoader } from "../../components"
 import { useLocation } from "react-router-dom"
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const CreatePost = () => {
     document.title = "Создание поста"
@@ -12,27 +13,14 @@ const CreatePost = () => {
     const { pathname } = useLocation()
     const fileFolder = pathname.split('/').join('-').slice(1)
 
-    const [inputData, setInputData] = useState({id: '', title: '', postBody: EditorState.createEmpty()})
+    const [inputData, setInputData] = useState({title: '', postBody: EditorState.createEmpty(), image: ''})
     const [imgURL, setImgURL] = useState('')
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
-    const [lastPostID, setLastPostID] = useState('')
 
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
     // console.log(inputData.postBody.getCurrentContent())
     // console.log(convertFromRaw(JSON.parse(JSON.stringify(convertToRaw(inputData.postBody.getCurrentContent())))))
-    console.log(inputData);
-
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API}/api/posts/`)
-            .then(res => {
-                setInputData({ ...inputData, id: res.data[res.data.length-1].id + 1 })
-            })
-            .catch(e => {
-                console.log(e)
-                setInputData({ ...inputData, id: 1 })
-            })
-    }, [])
 
    useEffect(() => {
        setInputData({...inputData, postBody: editorState})       
@@ -40,11 +28,10 @@ const CreatePost = () => {
 
     async function createPost(e){
         e.preventDefault()
-
         await axios.post(`${process.env.REACT_APP_API}/api/posts/create/`, {
-            id: inputData.id,
             title: inputData.title,
-            postBody: JSON.stringify(convertToRaw(inputData.postBody.getCurrentContent()))
+            postBody: JSON.stringify(convertToRaw(inputData.postBody.getCurrentContent())),
+            image: inputData.image
         }, {
             headers: {
                 'Authorization': `Bearer ${localStorage.access_token}`   
@@ -64,12 +51,12 @@ const CreatePost = () => {
             <CloseButton/>
             <h1>Создание поста</h1>
             <div className="form-floating">
-                <input value={inputData.id} className="form-control mb-2" disabled name="id" id="id"></input>
-                <label htmlFor="id">Номер (генерируется автоматически)</label>
-            </div>
-            <div className="form-floating">
                 <textarea onChange={e => setInputData({...inputData, title: e.target.value})} value={inputData.title} className="form-control mb-2" name="title" id="title" style={{'height': "100px"}}></textarea>
                 <label htmlFor="title">Заголовок</label>
+            </div>
+            <div className="form-floating">
+                <textarea onChange={e => setInputData({...inputData, image: e.target.value})} value={inputData.image} className="form-control mb-2" name="image" id="image" style={{'height': "100px"}}></textarea>
+                <label htmlFor="title">Ссылка на изображение</label>
             </div>
             <div className="rounded border mb-2">
                 <Editor

@@ -12,7 +12,7 @@ const Post = () => {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API}/api/posts/${postID}`)
         .then(res => {
-                let data = res.data
+                let data = res.data[0]
                 document.title = data.title
                 data = `<h1>${data.title}</h1>` + draftToHtml(JSON.parse(data.postBody))
                 setPost(data)
