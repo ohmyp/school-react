@@ -16,7 +16,8 @@ const Lesson = () => {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API}/api/profession/${category}/${id}`)
         .then(res => {
-            const data = res.data
+            console.log(res.data);
+            const data = res.data[0]
             setLesson(data)
             if (!data) {setNoLessonExists(true)}
             },
@@ -35,7 +36,7 @@ const Lesson = () => {
             <FileLoader fileFolder={fileFolder}/>
             <div className="row row-cols-1 row-cols-md-2 row-cols-sm-1 row-cols-lg-3">
                 {lesson ? lesson.files.map(file => {
-                    return <div className='col mt-2'>
+                    return <div key={file.fileName} className='col mt-2'>
                         <div className="card mt-2 text-center" key={file.fileName} style={{width: 'auto'}}>
                             <p className="card-header">Материалы для выполенения задания</p>
                             <div className="card-body">

@@ -7,8 +7,8 @@ const UpdateLesson = () => {
     document.title = "Редактирование урока"
     const { pathname } = useLocation()
     const fileFolder = pathname.split('/').join('-').slice(1)
-    const inputState = {type: '', id: '', title: '', files:[]}
-    const isOkState = {type: false, id: false, title: false, files: false}
+    const inputState = { type: '', tag: '', title: '', files: [] }
+    const isOkState = { type: false, tag: false, title: false, files: false }
 
     const [category, setCategory] = useState(null)
     const [files, setFiles] = useState([])
@@ -23,11 +23,11 @@ const UpdateLesson = () => {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
     const [deleteSuccess, setDeleteSuccess] = useState(false)
-    
+
     useEffect(() => {
         setSuccess(false)
         setError('')
-        if (Object.values(formIsOk).every(Boolean)){
+        if (Object.values(formIsOk).every(Boolean)) {
             setCanSubmit(true)
         } else {
             setCanSubmit(false)
@@ -37,7 +37,7 @@ const UpdateLesson = () => {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API}/api/profession/${category}/`)
             .then(res => {
-               setLessons(res.data)
+                setLessons(res.data)
             })
             .catch(e => {
                 console.log(e)
@@ -54,64 +54,66 @@ const UpdateLesson = () => {
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_API}/api/profession/${category}/${lessonNumber}`)
             .then(res => {
-                    if (res.data){
-                        setInputData({ 
-                            ...inputData, 
-                            id: res.data.id, 
-                            title: res.data.title, 
-                            files: res.data.files, 
-                            type: res.data.type 
-                        })
-                        setFormIsOk({...formIsOk, id: true, title: true, files: true, type: true })
-                    }
+                if (res.data[0]) {
+                    res.data = res.data[0]
+                    setInputData({
+                        ...inputData,
+                        id: res.data.id,
+                        title: res.data.title,
+                        files: res.data.files,
+                        type: res.data.type,
+                        tag: res.data.tag
+                    })
+                    setFormIsOk({ ...formIsOk, tag: true, title: true, files: true, type: true })
+                }
             })
             .catch(e => {
                 console.log(e)
             })
     }, [lessonNumber, refresh]);
 
-    async function updateLesson(e){
-        e.preventDefault();
+    async function updateLesson(e) {
+        e.preventDefault(inputData);
+        console.log();
         await axios.post(`${process.env.REACT_APP_API}/api/profession/${category}/${inputData.id}/update/`, inputData, {
             headers: {
-             'Authorization': `Bearer ${localStorage.access_token}`   
+                'Authorization': `Bearer ${localStorage.access_token}`
             }
         })
-        .then(res => {
-            setSuccess(true)
-        })
-        .catch( (error) => {
-            setError(error.response.data.message)
-            setSuccess(false)
-        });
+            .then(res => {
+                setSuccess(true)
+            })
+            .catch((error) => {
+                setError(error.response.data.message)
+                setSuccess(false)
+            });
     }
     const inputHandler = (e) => {
         const { name, value } = e.target
         setInputData({ ...inputData, [name]: value })
-        if (value === ''){
-            setFormIsOk({...formIsOk, [name]: false })
+        if (value === '') {
+            setFormIsOk({ ...formIsOk, [name]: false })
         }
         else {
-            setFormIsOk({...formIsOk, [name]: true })
+            setFormIsOk({ ...formIsOk, [name]: true })
         }
     }
     const addFile = () => {
-        inputData.files.push({fileName: selectedFile, href: selectedFile})
-        if (inputData.files.length < 1){
-            setFormIsOk({...formIsOk, files: false })
+        inputData.files.push({ fileName: selectedFile, href: selectedFile })
+        if (inputData.files.length < 1) {
+            setFormIsOk({ ...formIsOk, files: false })
         }
         else {
-            setFormIsOk({...formIsOk, files: true })
+            setFormIsOk({ ...formIsOk, files: true })
         }
     }
     const deleteFile = (e) => {
         inputData.files = inputData.files.filter(f => f.href !== e.target.value)
-        // inputData.files.pop( {fileName:toRemove, href:toRemove} )
-        if (inputData.files.length < 1){
-            setFormIsOk({...formIsOk, files: false })
+        if (inputData.files.length < 1) {
+            setFormIsOk({ ...formIsOk, files: false })
         }
         else {
-            setFormIsOk({...formIsOk, files: true })
+            setFormIsOk({ ...formIsOk, files: true })
         }
     }
     const refreshFiles = () => {
@@ -119,11 +121,11 @@ const UpdateLesson = () => {
     }
     const categoryOnChange = (e) => {
         setInputData({ ...inputData, type: e.target.value })
-        setFormIsOk({...formIsOk, type: true })
+        setFormIsOk({ ...formIsOk, type: true })
         setCategory(e.target.value)
     }
     const renameFile = (e) => {
-        const {name, value} = e.target
+        const { name, value } = e.target
         let foundItem = inputData.files.find(file => file.href === name)
         foundItem.fileName = value
     }
@@ -131,23 +133,23 @@ const UpdateLesson = () => {
         e.preventDefault();
         await axios.get(`${process.env.REACT_APP_API}/api/profession/${category}/${inputData.id}/delete/`, {
             headers: {
-             'Authorization': `Bearer ${localStorage.access_token}`   
+                'Authorization': `Bearer ${localStorage.access_token}`
             }
         })
-        .then(res => {
-            setDeleteSuccess(true)
-            setInputData(inputState)
-            setRefresh(!refresh)
-            setFormIsOk(isOkState)
-        })
-        .catch( (error) => {
-            setError(error.response.data.message)
-            setDeleteSuccess(false)
-        });
+            .then(res => {
+                setDeleteSuccess(true)
+                setInputData(inputState)
+                setRefresh(!refresh)
+                setFormIsOk(isOkState)
+            })
+            .catch((error) => {
+                setError(error.response.data.message)
+                setDeleteSuccess(false)
+            });
     }
     return (
         <div className="container">
-            <CloseButton/>
+            <CloseButton />
             <h1>Редактирование карточки урока</h1>
             <select className="form-select mb-2" onChange={categoryOnChange}>
                 <option>Выберите категорию</option>
@@ -156,14 +158,14 @@ const UpdateLesson = () => {
                 <option value="tests">Анкетирование</option>
             </select>
 
-            <select disabled={!category} className="form-select mb-2 disabled" onChange={e => {setLessonNumber(e.target.value); setRefresh(!refresh)}}>
-                    <option>Выберите урок</option>
-                    {lessons.length > 0 ? lessons.map(lesson => <option key={lesson.title} value={lesson.id}>{lesson.id}. {lesson.title}</option>) : <></>}
+            <select disabled={!category} className="form-select mb-2 disabled" onChange={e => { setLessonNumber(e.target.value); setRefresh(!refresh) }}>
+                <option>Выберите урок</option>
+                {lessons.length > 0 ? lessons.map(lesson => <option key={lesson.title} value={lesson.id}>{lesson.id}. {lesson.title}</option>) : <></>}
             </select>
 
             <div className="form-floating">
-                <input disabled={!lessonNumber} onChange={inputHandler} value={inputData.id} className="form-control mb-2" name="id" id="id"></input>
-                <label htmlFor="id">Номер занятия</label>
+                <input disabled={!lessonNumber} onChange={inputHandler} value={inputData.tag} className="form-control mb-2" name="tag" id="tag"></input>
+                <label htmlFor="tag">Номер занятия</label>
             </div>
 
             <div className="form-floating">
@@ -179,26 +181,26 @@ const UpdateLesson = () => {
                 </select>
                 <button className="btn btn-primary" onClick={addFile}>Прикрепить</button>
                 <button className="btn btn-primary ms-2" onClick={refreshFiles}>Обновить список</button>
-                {inputData.files.length > 0 ? 
-                inputData.files.map((file, i) => 
-                    <div className="input-group mt-2" key={file.href + i}>
-                        <input name={file.href} className="form-control" placeholder={file.fileName} onChange={renameFile}/>
-                        <button className="btn btn-outline-secondary" type="button" id="button-addon2" value={file.href} onClick={deleteFile}>Удалить</button>
-                    </div>
-                ) 
-                : <></>}
+                {inputData.files.length > 0 ?
+                    inputData.files.map((file, i) =>
+                        <div className="input-group mt-2" key={file.href + i}>
+                            <input name={file.href} className="form-control" placeholder={file.fileName} onChange={renameFile} />
+                            <button className="btn btn-outline-secondary" type="button" id="button-addon2" value={file.href} onClick={deleteFile}>Удалить</button>
+                        </div>
+                    )
+                    : <></>}
             </div>
 
             <div className="mb-2">
                 <label>Загрузить файлы</label>
-                <FileLoader fileFolder={fileFolder} cb={null}/>
+                <FileLoader fileFolder={fileFolder} cb={null} />
             </div>
 
-            <button onClick={updateLesson} className={canSubmit?'btn btn-primary mt-2':'btn btn-primary mt-2 disabled'}>Обновить урок</button>
-            <button onClick={deleteLesson} className={canSubmit&&lessonNumber?'btn btn-danger mt-2 ms-2':'btn btn-danger mt-2 ms-2 disabled'}>Удалить урок</button>
-            {error?<div className='alert alert-danger mt-2'>{error}</div>:<></>}
-            {success?<div className='alert alert-success mt-2'>Урок успешно обновлен</div>:<></>}
-            {deleteSuccess?<div className='alert alert-warning mt-2'>Урок успешно удален</div>:<></>}
+            <button onClick={updateLesson} className={canSubmit ? 'btn btn-primary mt-2' : 'btn btn-primary mt-2 disabled'}>Обновить урок</button>
+            <button onClick={deleteLesson} className={canSubmit && lessonNumber ? 'btn btn-danger mt-2 ms-2' : 'btn btn-danger mt-2 ms-2 disabled'}>Удалить урок</button>
+            {error ? <div className='alert alert-danger mt-2'>{error}</div> : <></>}
+            {success ? <div className='alert alert-success mt-2'>Урок успешно обновлен</div> : <></>}
+            {deleteSuccess ? <div className='alert alert-warning mt-2'>Урок успешно удален</div> : <></>}
 
         </div>
     );
