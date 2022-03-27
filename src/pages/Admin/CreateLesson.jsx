@@ -7,8 +7,8 @@ const CreateLesson = () => {
     document.title = "Создание урока"
     const { pathname } = useLocation()
     const fileFolder = pathname.split('/').join('-').slice(1)
-    const inputState = {type: '', id: '', title: '', files:[]}
-    const isOkState = {type: false, id: false, title: false, files: false}
+    const inputState = {type: '', tag: '', title: '', files:[]}
+    const isOkState = {type: false, tag: false, title: false, files: false}
 
     const [category, setCategory] = useState(null)
     const [files, setFiles] = useState([])
@@ -21,6 +21,7 @@ const CreateLesson = () => {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
     console.log(inputData);
+    console.log(formIsOk);
     
     useEffect(() => {
         setSuccess(false)
@@ -112,8 +113,8 @@ const CreateLesson = () => {
                 <option value="tests">Анкетирование</option>
             </select>
             <div className="form-floating">
-                <input onChange={inputHandler} value={inputData.id} className="form-control mb-2" name="id" id="id"></input>
-                <label htmlFor="id">Номер занятия</label>
+                <input onChange={inputHandler} value={inputData.tag} className="form-control mb-2" name="tag" id="tag"></input>
+                <label htmlFor="tag">Номер занятия</label>
             </div>
             <div className="form-floating">
                 <input onChange={inputHandler} value={inputData.title} className="form-control mb-2" name="title" id="title"></input>

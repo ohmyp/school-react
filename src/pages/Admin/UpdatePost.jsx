@@ -4,11 +4,8 @@ import { CloseButton, FileLoader } from "../../components"
 import { useLocation } from "react-router-dom"
 
 import { Editor } from "react-draft-wysiwyg";
-
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
-
 import draftToHtml from 'draftjs-to-html';
-
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const CreatePost = () => {
