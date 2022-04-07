@@ -23,15 +23,9 @@ const Header = () => {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/">Главная</Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link disabled" to="/outschool">Факультативы</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link disabled" to="/portfolio">Портфолио</Link>
-                            </li>
                             <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle" to="/profession" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Профориентация
+                                <Link className="nav-link dropdown-toggle disabled" to="/profession" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    НОО
                                 </Link>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <li><Link className="dropdown-item" to="/profession/pupils">Для ученика</Link></li>
@@ -39,6 +33,53 @@ const Header = () => {
                                     <li><Link className="dropdown-item" to="/profession/tests">Анкеты</Link></li>
                                 </ul>
                             </li>
+
+                            <li className="nav-item dropdown">
+                                <Link className="nav-link dropdown-toggle" to="/profession" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    ООО
+                                </Link>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><Link className="dropdown-item disabled" to="/">Дистанционное обучение</Link></li>
+                                    <li><Link className="dropdown-item disabled" to="/portfolio">Портфолио</Link></li>
+                                    <li><Link className="dropdown-item" to="/profession/pupils">Для ученика</Link></li>
+                                    <li><Link className="dropdown-item" to="/profession/teachers">Для учителя</Link></li>
+                                    <li><Link className="dropdown-item" to="/profession/tests">Анкеты</Link></li>
+                                </ul>
+                            </li>
+
+                            <li className="nav-item dropdown">
+                                <Link className="nav-link dropdown-toggle disabled" to="/profession" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    СОО
+                                </Link>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><Link className="dropdown-item" to="/profession/pupils">Для ученика</Link></li>
+                                    <li><Link className="dropdown-item" to="/profession/teachers">Для учителя</Link></li>
+                                    <li><Link className="dropdown-item" to="/profession/tests">Анкеты</Link></li>
+                                </ul>
+                            </li>
+
+                            <li className="nav-item dropdown">
+                                <Link className="nav-link dropdown-toggle disabled" to="/profession" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    ОДОД
+                                </Link>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><Link className="dropdown-item" to="/profession/pupils">Для ученика</Link></li>
+                                    <li><Link className="dropdown-item" to="/profession/teachers">Для учителя</Link></li>
+                                    <li><Link className="dropdown-item" to="/profession/tests">Анкеты</Link></li>
+                                </ul>
+                            </li>
+
+                            <li className="nav-item dropdown">
+                                <Link className="nav-link dropdown-toggle disabled" to="/profession" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Восп. работа
+                                </Link>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <li><Link className="dropdown-item" to="/profession/pupils">Для ученика</Link></li>
+                                    <li><Link className="dropdown-item" to="/profession/teachers">Для учителя</Link></li>
+                                    <li><Link className="dropdown-item" to="/profession/tests">Анкеты</Link></li>
+                                </ul>
+                            </li>
+                            
                             <li className="nav-item dropdown">
                                 <Link className="nav-link dropdown-toggle" to="/profession" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Полезные ссылки

@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import { Home, Outschool, Portfolio, ProfessionPupils, ProfessionTeachers, Projects, NotFound, CreateLesson, UpdateLesson, UpdatePost, Login, Admin, TestStatistics, Profile } from './pages/index'
+import { Home, Portfolio, ProfessionPupils, ProfessionTeachers, Projects, NotFound, CreateLesson, UpdateLesson, UpdatePost, Login, Admin, TestStatistics, Profile } from './pages/index'
 import { Tests, TestQuiz, Post, Lesson, CreatePost } from './pages/index'
 
 import { Header, Footer } from "./components/index";
@@ -9,20 +9,26 @@ import testList from './test_sources/index'
 import Authprovider from "./providers/AuthProvider";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Test from "./pages/Test";
 
 
 const App = () => {
   const dispatch = useDispatch()
+  const [status, setStatus] = useState(null)
+
   useEffect(() => {
     const fetchData = async () => {
       const posts = await axios.get(`${process.env.REACT_APP_API}/api/posts`)
       const teachers = await axios.get(`${process.env.REACT_APP_API}/api/profession/teachers`)
+      console.log(1);
       const pupils = await axios.get(`${process.env.REACT_APP_API}/api/profession/pupils`)
       const tests = await axios.get(`${process.env.REACT_APP_API}/api/profession/tests`)
       const user = await axios.get(`${process.env.REACT_APP_API}/api/auth`, {headers: {'Authorization': `Bearer ${localStorage.access_token}`}})
-      
+      const status = await axios.get(`${process.env.REACT_APP_API}/api/status`)
+
+      await setStatus(status.data[0].status)
+
       await dispatch({type: "ADD_POSTS", payload: posts.data})
       await dispatch({type: "ADD_LESSONS", payload: {teachers: teachers.data, pupils: pupils.data, tests: tests.data}})
       await dispatch({type: "ADD_USER", payload: user.data})
@@ -31,6 +37,8 @@ const App = () => {
   }, [])
 
   return (
+    status === 0 ? <h2 className="m-5">На сайте проводятся технические работы</h2> :
+
     <div className='d-flex flex-column h-100'>
         
     <Header />
@@ -41,8 +49,6 @@ const App = () => {
         <Route path='/post/:postID' element={<Post />}></Route>
 
         <Route path='/projects' element={<Projects />}/>
-
-        <Route path='/outschool' element={<Outschool />}/>
 
         <Route path='/portfolio' element={<Portfolio />}/>
 

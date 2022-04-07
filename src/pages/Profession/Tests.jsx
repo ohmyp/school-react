@@ -14,7 +14,7 @@ const Tests = () => {
                 subtitle={'Заполняйте анкеты'}
             />
         {
-            lessons ? <Lessons lessons={lessons}></Lessons> : <h2 className='container'>Загрузка...</h2>
+            lessons ? <Lessons test lessons={lessons}></Lessons> : <h2 className='container'>Загрузка...</h2>
             
         }
             
