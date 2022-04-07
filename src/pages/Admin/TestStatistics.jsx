@@ -3,17 +3,19 @@ import { useState, useEffect } from 'react';
 import TestStat from '../../components/TestStat/TestStat';
 import CloseButton from '../../components/CloseButton/CloseButton'
 const TestStatistics = () => {
+
     const [results, setResults] = useState([])
     const [filteredResults, setFilteredResults] = useState([])
     const [filters, setFilters] = useState({klimov: true, belov: true})
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API}/api/results/`, {
+        axios.get(`${process.env.REACT_APP_API}/api/results`, {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.access_token
               }
         })
         .then(res => {
+            console.log(res.data);
             setResults(res.data)
         })
         .catch(err => {
@@ -27,7 +29,8 @@ const TestStatistics = () => {
     }
 
     useEffect(() => {
-        const filtered = results.filter(res => filters[res.id])
+        const filtered = results.filter(res => filters[res.testId])
+        console.log(filtered);
         setFilteredResults(filtered)
     }, [results, filters]);
 
@@ -35,7 +38,6 @@ const TestStatistics = () => {
         <div className='container'>
             <CloseButton />
             <hr />
-
             <div className="form-check">
                 <input className="form-check-input" type="checkbox" name='klimov' checked={filters.klimov} onChange={checkHandler}/>
                 <label className="form-check-label">Климов</label>

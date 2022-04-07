@@ -32,7 +32,7 @@ const Form = ({ test }) => {
 
     async function sendResults(e){
         e.preventDefault()
-        let resultToSend = {id: test.id, name: test.title, results: {}, user: {}, date: new Date(), max: test.max}
+        let resultToSend = {testId: test.id, testName: test.title, results: {}, user: {}, date: new Date(), max: test.max}
         Object.entries(test.categoryScores).forEach(score => {
             const key = test.categoryNames[score[0]]
             resultToSend.results[key] = score[1]

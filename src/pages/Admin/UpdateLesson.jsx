@@ -160,7 +160,7 @@ const UpdateLesson = () => {
 
             <select disabled={!category} className="form-select mb-2 disabled" onChange={e => { setLessonNumber(e.target.value); setRefresh(!refresh) }}>
                 <option>Выберите урок</option>
-                {lessons.length > 0 ? lessons.map(lesson => <option key={lesson.title} value={lesson.id}>{lesson.id}. {lesson.title}</option>) : <></>}
+                {lessons.length > 0 ? lessons.map(lesson => <option key={lesson.title} value={lesson.id}>{lesson.title}</option>) : <></>}
             </select>
 
             <div className="form-floating">

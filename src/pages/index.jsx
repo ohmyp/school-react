@@ -1,4 +1,3 @@
-export { default as Outschool } from './Outschool'
 export { default as Portfolio } from './Portfolio'
 export { default as ProfessionPupils } from './Profession/ProfessionPupils'
 export { default as ProfessionTeachers } from './Profession/ProfessionTeachers'

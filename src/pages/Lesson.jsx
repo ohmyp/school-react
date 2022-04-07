@@ -26,19 +26,19 @@ const Lesson = () => {
     }, [id, ])
     if (noLessonExists) {return <Navigate to='/notfound'/>}
     if (error) {return (<h2 className='container'>{error.message}</h2>)}
-    document.title = `Занятие №${id}`
+    document.title = lesson ? lesson.title : "Загрузка..."
 
     return (
         <div className='container'>
             <CloseButton />
-            <h2>Материалы к занятию №{id}</h2>
+            <h2>{lesson?.title}: карточка урока</h2>
             <h4 className="card-title">Загрузка работы</h4>
             <FileLoader fileFolder={fileFolder}/>
             <div className="row row-cols-1 row-cols-md-2 row-cols-sm-1 row-cols-lg-3">
                 {lesson ? lesson.files.map(file => {
                     return <div key={file.fileName} className='col mt-2'>
                         <div className="card mt-2 text-center" key={file.fileName} style={{width: 'auto'}}>
-                            <p className="card-header">Материалы для выполенения задания</p>
+                            <p className="card-header">Материалы для выполнения задания</p>
                             <div className="card-body">
                                 <h4 className="card-title">{file.fileName}</h4>
                                 <p className="card-text">Нажмите кнопку ниже, чтобы загрузить материалы</p>
